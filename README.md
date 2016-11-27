@@ -1,7 +1,7 @@
 # Redmine Elasticsearch Plugin
 
-[![Build Status](https://travis-ci.org/Undev/redmine_elasticsearch.png?branch=master)](https://travis-ci.org/Undev/redmine_elasticsearch)
-[![Code Climate](https://codeclimate.com/github/Undev/redmine_elasticsearch.png)](https://codeclimate.com/github/Undev/redmine_elasticsearch)
+[![Build Status](https://travis-ci.org/centosadmin/redmine_elasticsearch.png?branch=master)](https://travis-ci.org/centosadmin/redmine_elasticsearch)
+[![Code Climate](https://codeclimate.com/github/centosadmin/redmine_elasticsearch.png)](https://codeclimate.com/github/centosadmin/redmine_elasticsearch)
 
 This plugin integrates the Elasticsearch<sup>®</sup> full-text search engine into Redmine.
 
@@ -26,15 +26,15 @@ This plugin version is compatible only with Redmine 2.1.x and later.
 4. To install Redmine Elasticsearch Plugin,
 
     * Download the .ZIP archive, extract files and copy the plugin directory into #{REDMINE_ROOT}/plugins.
-    
+
     Or
 
     * Change you current directory to your Redmine root directory:  
 
             cd {REDMINE_ROOT}
-            
+
       Copy the plugin from GitHub using the following commands:
-      
+
             git clone https://github.com/Undev/redmine_elasticsearch.git plugins/redmine_elasticsearch
 
 5. Install the required gems:
@@ -53,7 +53,7 @@ This plugin version is compatible only with Redmine 2.1.x and later.
 
 8. Restart Redmine
 
-Now you should be able to see the plugin in **Administration > Plugins**. 
+Now you should be able to see the plugin in **Administration > Plugins**.
 
 ## Configuration
 
@@ -71,7 +71,7 @@ You can explicitly specify the elasticsearch cluster by setting the **ELASTICSEA
 
 The plugin enables full-text search capabilities in Redmine.
 
-Search is performed using a query string, which is parsed into a series of terms and operators. A term can be a single word (*another* or *issue*) or a phrase (*another issue*). Operators allow you to customize your search. 
+Search is performed using a query string, which is parsed into a series of terms and operators. A term can be a single word (*another* or *issue*) or a phrase (*another issue*). Operators allow you to customize your search.
 
 For more information about the query string syntax, see [Elasticsearch Reference]( http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax).
 
