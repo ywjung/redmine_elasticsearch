@@ -4,10 +4,33 @@ module Workers
     class IndexError < StandardError
     end
 
-    @queue = :index_queue
+    include Sidekiq::Worker
+    sidekiq_options :queue => :index_queue, :retry => 2, :backtrace => true
+
+    def perform(options)
+      id, type = options.with_indifferent_access[:id], options.with_indifferent_access[:type]
+      id.nil? ? update_class_index(type) : update_instance_index(type, id)
+    end
+
+    def update_class_index(type)
+      klass = RedmineElasticsearch.type2class(type)
+      klass.update_index
+    rescue ::RestClient::Exception, Errno::ECONNREFUSED => e
+      raise IndexError, e, e.backtrace
+    end
+
+    def update_instance_index(type, id)
+      klass = RedmineElasticsearch.type2class(type)
+      document = klass.find id
+      document.update_index
+    rescue ActiveRecord::RecordNotFound
+      klass.index.remove type, id
+      klass.index.refresh
+    rescue ::RestClient::Exception, Errno::ECONNREFUSED => e
+      raise IndexError, e, e.backtrace
+    end
 
     class << self
-
       def defer(object_or_class)
         if object_or_class.is_a? Class
           params = { type: object_or_class.index_document_type }
@@ -25,30 +48,7 @@ module Workers
       end
 
       def perform_async(options)
-        Resque.enqueue(Workers::Indexer, options)
-      end
-
-      def perform(options)
-        id, type = options.with_indifferent_access[:id], options.with_indifferent_access[:type]
-        id.nil? ? update_class_index(type) : update_instance_index(type, id)
-      end
-
-      def update_class_index(type)
-        klass = RedmineElasticsearch.type2class(type)
-        klass.update_index
-      rescue ::RestClient::Exception, Errno::ECONNREFUSED => e
-        raise IndexError, e, e.backtrace
-      end
-
-      def update_instance_index(type, id)
-        klass = RedmineElasticsearch.type2class(type)
-        document = klass.find id
-        document.update_index
-      rescue ActiveRecord::RecordNotFound
-        klass.index.remove type, id
-        klass.index.refresh
-      rescue ::RestClient::Exception, Errno::ECONNREFUSED => e
-        raise IndexError, e, e.backtrace
+        Sidekiq::Client.enqueue(Workers::Indexer, options)
       end
     end
   end

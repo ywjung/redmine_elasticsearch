@@ -13,7 +13,7 @@ This plugin version is compatible only with Redmine 3.x.x and later.
 
 ## Installation
 
-1. This plugin requires [Redmine Resque Plugin](https://github.com/Undev/redmine_resque). Install the plugin, but do not start a Resque worker for now.
+1. This plugin requires [Redmine Sidekiq Plugin](https://github.com/ogom/redmine_sidekiq.git). Install the plugin.
 
 2. Download and install [Elasticsearch](http://www.elasticsearch.org/overview/elkdownloads/).
 
@@ -35,7 +35,7 @@ This plugin version is compatible only with Redmine 3.x.x and later.
 
       Copy the plugin from GitHub using the following commands:
 
-            git clone https://github.com/Undev/redmine_elasticsearch.git plugins/redmine_elasticsearch
+            git clone https://github.com/centosadmin/redmine_elasticsearch.git plugins/redmine_elasticsearch
 
 5. Install the required gems:
 
@@ -46,10 +46,9 @@ This plugin version is compatible only with Redmine 3.x.x and later.
         cd {REDMINE_ROOT}
         bundle exec rake redmine_elasticsearch:reindex_all RAILS_ENV=production
 
-7. Start a Resque worker (as described in [Redmine Resque Plugin](https://github.com/Undev/redmine_resque) installation instructions).
+7. Start a Sidekiq for queue with name "index_queue".
 
-        cd YOUR_REDMINE_ROOT
-        bundle exec rake resque:work RAILS_ENV=production QUEUE=*
+        sidekiq -q index_queue
 
 8. Restart Redmine
 
