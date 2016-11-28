@@ -1,6 +1,6 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RedmineElasticsearch::ProjectSearchTest < ActionController::IntegrationTest
+class RedmineElasticsearch::ProjectSearchTest < Redmine::IntegrationTest
   fixtures :projects,
            :users,
            :roles,
