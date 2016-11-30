@@ -7,6 +7,7 @@ en:
   label_how_to_search: How to search
 
   field_digest: MD5 digest
+  field_tag: Tag
 
   es:
     word: Word

@@ -7,6 +7,7 @@ ru:
   label_how_to_search: Как искать?
 
   field_digest: MD5 дайджест
+  field_tag: Тег
 
   es:
     word: Слово

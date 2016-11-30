@@ -182,6 +182,20 @@ For example this query will search issues with done_ratio from 0 to 50 and due_d
 | updated_on | Updated |
 | url | URL |
 
+### Knowledgebase
+
+| Query string field | Redmine field name |
+|--------------------|------------------- |
+| title | Title |
+| summary | Summary |
+| content   ~ description | Text |
+| category | Category |
+| tag | Tag |
+| author | Author |
+| created_on   ~ datetime | Created |
+| updated_on | Updated |
+| url | URL |
+
 ### Documents
 
 | Query string field | Redmine field name |

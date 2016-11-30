@@ -112,7 +112,7 @@ module RedmineElasticsearch::Patches::SearchControllerPatch
 
     common_must = []
 
-    search_fields = options[:titles_only] ? ['title'] : %w(title description notes custom_field_values attachments.title attachments.file attachments.filename)
+    search_fields = options[:titles_only] ? ['title'] : %w(title description tag notes custom_field_values attachments.title attachments.file attachments.filename)
     search_operator = options[:all_words] ? 'AND' : 'OR'
     common_must << get_main_query(options, search_fields, search_operator)
 
