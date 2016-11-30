@@ -22,7 +22,12 @@ module Workers
     def update_instance_index(type, id)
       klass = RedmineElasticsearch.type2class(type)
       document = klass.find id
-      document.update_index
+      if document.respond_to?(:not_index) and document.not_index
+        klass.index.remove type, id
+        klass.index.refresh
+      else
+        document.update_index
+      end
     rescue ActiveRecord::RecordNotFound
       klass.index.remove type, id
       klass.index.refresh

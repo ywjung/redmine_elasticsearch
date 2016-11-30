@@ -45,7 +45,9 @@ module WikiPageSearch
     end
 
     def searching_scope(project_id)
-      self.where('project_id = ?', project_id).joins(:wiki)
+      scope = self.where('project_id = ?', project_id).joins(:wiki)
+      scope = scope.where(not_index: false) if self.respond_to?(:not_index)
+      scope
     end
   end
 end
