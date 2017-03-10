@@ -7,6 +7,9 @@ This plugin integrates the Elasticsearch<sup>®</sup> full-text search engine in
 
 Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in other countries.
 
+Our post at Medium about this plugin: https://medium.com/southbridge-io/fast-full-text-search-in-redmine-23a4b2bb0aea#.dyf614wqk
+
+
 ## Compatibility
 
 This plugin version is compatible only with Redmine 3.x.x and later.
