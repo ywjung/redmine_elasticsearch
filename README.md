@@ -1,3 +1,5 @@
+[![Rate at redmine.org](http://img.shields.io/badge/rate%20at-redmine.org-blue.svg?style=flat)](http://www.redmine.org/plugins/redmine_elasticsearch_fork)
+
 # Redmine Elasticsearch Plugin
 
 [![Build Status](https://travis-ci.org/centosadmin/redmine_elasticsearch.png?branch=master)](https://travis-ci.org/centosadmin/redmine_elasticsearch)
