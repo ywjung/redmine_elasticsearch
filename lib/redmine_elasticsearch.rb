@@ -34,8 +34,12 @@ module RedmineElasticsearch
     end
   end
 
-  def client
-    @client ||= Elasticsearch::Client.new client_options
+  def client(cache: true)
+    if cache
+      @client ||= Elasticsearch::Client.new client_options
+    else
+      @client = Elasticsearch::Client.new client_options
+    end
   end
 
   def client_options

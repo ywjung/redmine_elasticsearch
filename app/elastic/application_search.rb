@@ -60,13 +60,13 @@ module ApplicationSearch
       batch_size = options.fetch(:batch_size, RedmineElasticsearch::BATCH_SIZE_FOR_IMPORT)
 
       # Document type
-      type       = options.fetch(:type, document_type)
+      type = options.fetch(:type, document_type)
 
       # Imported records counter
-      imported   = 0
+      imported = 0
 
       # Errors counter
-      errors     = 0
+      errors = 0
 
       find_in_batches(batch_size: batch_size) do |items|
         response = __elasticsearch__.client.bulk(
