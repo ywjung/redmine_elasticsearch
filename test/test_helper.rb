@@ -1,3 +1,5 @@
+$VERBOSE = nil
+
 require File.expand_path(File.dirname(__FILE__) + '../../../../test/test_helper')
 
 # Perform all operations without Resque while testing
@@ -6,7 +8,7 @@ module Workers
   class Indexer
     class << self
       def perform_async(options)
-        perform(options)
+        new.perform(options)
       end
     end
   end
