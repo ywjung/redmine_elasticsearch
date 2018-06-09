@@ -19,7 +19,7 @@ Work with other versions of Elasticsearch is possible but not guarantied.
 
 ## Installation
 
-1. This plugin requires [Redmine Resque Plugin](https://github.com/Restream/redmine_resque). Install the plugin, but do not start a Resque worker for now.
+1. This plugin requires [Redmine Sidekiq Plugin](https://github.com/centosadmin/redmine_sidekiq).
 
 2. Download and install [Elasticsearch](http://www.elasticsearch.org/overview/elkdownloads/).
 
@@ -41,7 +41,7 @@ Work with other versions of Elasticsearch is possible but not guarantied.
             
       Copy the plugin from GitHub using the following commands:
       
-            git clone https://github.com/Restream/redmine_elasticsearch.git plugins/redmine_elasticsearch
+            git clone https://github.com/centosadmin/redmine_elasticsearch.git plugins/redmine_elasticsearch
 
 5. Install the required gems:
 
@@ -52,12 +52,7 @@ Work with other versions of Elasticsearch is possible but not guarantied.
         cd {REDMINE_ROOT}
         bundle exec rake redmine_elasticsearch:reindex_all RAILS_ENV=production
 
-7. Start a Resque worker (as described in [Redmine Resque Plugin](https://github.com/Restream/redmine_resque) installation instructions).
-
-        cd YOUR_REDMINE_ROOT
-        bundle exec rake resque:work RAILS_ENV=production QUEUE=*
-
-8. Restart Redmine
+7. Restart Redmine
 
 Now you should be able to see the plugin in **Administration > Plugins**. 
 
@@ -231,13 +226,9 @@ You can search for issues, projects, news, documents, wiki pages and messages by
 
     bundle exec rake redmine:plugins:test RAILS_ENV=test NAME=redmine_elasticsearch START_TEST_CLUSTER=true TEST_CLUSTER_COMMAND={PATH_TO_ELASTICSEARCH}
 
-## Maintainers
-
-Danil Tashkinov, [github.com/nodecarter](https://github.com/nodecarter)
-
 ## License
 
-Copyright (c) 2017 Restream
+Copyright (c) 2018 Restream, Southbridge
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
