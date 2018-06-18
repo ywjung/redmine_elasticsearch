@@ -3,6 +3,7 @@ require_dependency 'search_controller'
 module RedmineElasticsearch
   module Patches
     module SearchControllerPatch
+      using Refinements::String
 
       def index
         get_variables_from_params
@@ -23,7 +24,7 @@ module RedmineElasticsearch
         # run that text as a query behavior (which is usually what a text search box does).
         search_options = {
           scope:              @scope,
-          q:                  @question,
+          q:                  @question.sanitize,
           titles_only:        @titles_only,
           search_attachments: @search_attachments,
           all_words:          @all_words,
