@@ -4,11 +4,7 @@ module RedmineElasticsearch
 
     refine ::String do
       def sanitize
-        dup.tap(&:sanitize!)
-      end
-
-      def sanitize!
-        ESCAPED_CHARS.each { |char| gsub!(char, "\\#{char}") }
+        dup.tap { |s| ESCAPED_CHARS.each { |char| s.gsub!(char, "\\#{char}") } }
       end
     end
   end
