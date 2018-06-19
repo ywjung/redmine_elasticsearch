@@ -11,7 +11,8 @@ module WikiPageSearch
       ParentProject.allowed_to_search_query(user, options)
     end
 
-    def searching_scope(project_id)
+    def searching_scope
+      return super unless Redmine::Plugin.installed?(:redmine_wiki_encryptor)
       super.where(not_index: false)
     end
 

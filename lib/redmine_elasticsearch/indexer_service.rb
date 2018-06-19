@@ -55,8 +55,8 @@ module RedmineElasticsearch
       def count_estimated_records(search_type = nil)
         search_klass = search_type && find_search_klass(search_type)
         search_klass ?
-          search_klass.count :
-          RedmineElasticsearch.search_klasses.inject(0) { |sum, klass| sum + klass.count }
+          search_klass.searching_scope.count :
+          RedmineElasticsearch.search_klasses.inject(0) { |sum, klass| sum + klass.searching_scope.count }
       end
 
       protected

@@ -49,8 +49,8 @@ module ApplicationSearch
       ParentProject.allowed_to_search_query(user, options)
     end
 
-    def searching_scope(project_id)
-      self.where('project_id = ?', project_id)
+    def searching_scope
+      all
     end
 
     # Import all records to elastic
@@ -68,7 +68,7 @@ module ApplicationSearch
       # Errors counter
       errors = 0
 
-      find_in_batches(batch_size: batch_size) do |items|
+      searching_scope.find_in_batches(batch_size: batch_size) do |items|
         response = __elasticsearch__.client.bulk(
           index: index_name,
           type:  type,
@@ -88,11 +88,18 @@ module ApplicationSearch
     end
 
     def remove_from_index(id)
-      __elasticsearch__.client.delete index: index_name, type: document_type, id: id
+      __elasticsearch__.client.delete index: index_name, type: document_type, id: id, routing: id
     end
   end
 
   def update_index
-    self.class.where(id: self.id).import
+    relation = self.class.searching_scope.where(id: id)
+
+    if relation.size.zero?
+      self.class.remove_from_index(id)
+      return
+    end
+
+    relation.import
   end
 end
