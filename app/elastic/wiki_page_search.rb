@@ -11,5 +11,9 @@ module WikiPageSearch
       ParentProject.allowed_to_search_query(user, options)
     end
 
+    def searching_scope(project_id)
+      super.where(not_index: false)
+    end
+
   end
 end
