@@ -12,6 +12,7 @@ module WikiPageSearch
     end
 
     def searching_scope
+      return super unless Redmine::Plugin.installed?(:redmine_wiki_encryptor)
       super.where(not_index: false)
     end
 
