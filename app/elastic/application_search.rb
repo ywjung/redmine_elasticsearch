@@ -96,8 +96,12 @@ module ApplicationSearch
     relation = self.class.searching_scope.where(id: id)
 
     if relation.size.zero?
-      self.class.remove_from_index(id)
-      return
+      begin
+        self.class.remove_from_index(id)
+        return
+      rescue Elasticsearch::Transport::Transport::Errors:::NotFound
+        return
+      end
     end
 
     relation.import
