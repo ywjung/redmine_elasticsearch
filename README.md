@@ -218,6 +218,34 @@ For example this query will search issues with done_ratio from 0 to 50 and due_d
 | attachments.downloads | D/L |
 | attachments.file | Attachment content |
 
+### Knowledgebase
+
+| Query string field | Redmine field name |
+|--------------------|------------------- |
+| title | Title |
+| summary | Summary |
+| content   ~ description | Text |
+| category | Category |
+| tag | Tag |
+| author | Author |
+| created_on   ~ datetime | Created |
+| updated_on | Updated |
+| url | URL |
+
+### Contacts
+
+| Query string field | Redmine field name |
+|--------------------|------------------- |
+| name | Name |
+| description | Text |
+| company | Company |
+| phone | Phone |
+| email | Email |
+| author | Author |
+| created_on   ~ datetime | Created |
+| updated_on | Updated |
+| url | URL |
+
 You can search for issues, projects, news, documents, wiki pages and messages by attachments. For example, to limit the search scope to containers with the **somefile.pdf** attachment filename, use the following syntax:
 
     attachments.filename:somefile.pdf
