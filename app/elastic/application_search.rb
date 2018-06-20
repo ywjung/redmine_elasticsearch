@@ -99,7 +99,7 @@ module ApplicationSearch
       begin
         self.class.remove_from_index(id)
         return
-      rescue Elasticsearch::Transport::Transport::Errors:::NotFound
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound
         return
       end
     end
