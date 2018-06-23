@@ -58,6 +58,7 @@ end
 %w{elastic serializers}.each do |fold|
   fold_path                                  = File.dirname(__FILE__) + "/../app/#{fold}"
   ActiveSupport::Dependencies.autoload_paths += [fold_path]
+  Rails.application.config.eager_load_paths += [fold_path]
 end
 
 require_dependency 'redmine_elasticsearch/patches/redmine_search_patch'
