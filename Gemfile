@@ -1,5 +1,5 @@
 gem 'elasticsearch-model'
-gem 'active_model_serializers', '~> 0.8.3'
+gem 'active_model_serializers', '~> 0.7.0'
 gem 'kaminari'
 gem 'ansi'
 
