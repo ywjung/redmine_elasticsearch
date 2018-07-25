@@ -38,10 +38,14 @@ fi
 # create a link to the backlogs plugin
 ln -sf $PATH_TO_PLUGIN plugins/$NAME_OF_PLUGIN
 
+git clone git://github.com/centosadmin/redmine_sidekiq.git $PATH_TO_REDMINE/plugins/redmine_sidekiq
+
 cp $PATH_TO_PLUGIN/config/database-$DB-travis.yml $PATH_TO_REDMINE/config/database.yml
 
 # install gems
 bundle install
+
+bundle exec rake db:create
 
 # run redmine database migrations
 bundle exec rake db:migrate
