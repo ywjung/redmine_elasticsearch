@@ -38,6 +38,8 @@ fi
 # create a link to the backlogs plugin
 ln -sf $PATH_TO_PLUGIN plugins/$NAME_OF_PLUGIN
 
+cp $PATH_TO_PLUGIN/config/database-$DB-travis.yml $PATH_TO_REDMINE/config/database.yml
+
 # install gems
 bundle install
 

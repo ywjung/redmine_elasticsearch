@@ -36,5 +36,4 @@ script:
   - export PATH_TO_PLUGIN=`pwd`
   - export PATH_TO_REDMINE=$TESTSPACE/redmine
   - mkdir $TESTSPACE
-  - cp config/database-$DB-travis.yml $PATH_TO_REDMINE/config/database.yml
   - bash -x ./travis.sh
