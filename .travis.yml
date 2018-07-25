@@ -28,6 +28,8 @@ before_install:
   - sudo service elasticsearch start
   - sleep 5
 
+install: "echo skip bundle install"
+
 script:
   - export TESTSPACE=`pwd`/testspace
   - export NAME_OF_PLUGIN=redmine_elasticsearch
