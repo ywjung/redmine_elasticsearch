@@ -2,7 +2,8 @@ module ProjectSearch
   extend ActiveSupport::Concern
 
   def async_update_index
-    Workers::Indexer.defer(ParentProject.find(id))
+    project = ParentProject.find_by(id: id)
+    Workers::Indexer.defer(project) if project
     Workers::Indexer.defer(self)
   end
 
