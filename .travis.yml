@@ -27,18 +27,12 @@ before_install:
   - yes | sudo $ES_HOME/bin/elasticsearch-plugin install ingest-attachment
   - sudo service elasticsearch start
   - sleep 5
-  - export PLUGIN_NAME=redmine_elasticsearch
-  - export REDMINE_PATH=$HOME/redmine
-  - svn co http://svn.redmine.org/redmine/tags/$REDMINE_VER $REDMINE_PATH
-  - ln -s $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
-  - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml
-  - git clone --depth=1 https://github.com/centosadmin/redmine_sidekiq.git $REDMINE_PATH/plugins/redmine_sidekiq
-
-before_script:
-  - bundle exec rake db:create
-  - bundle exec rake db:migrate
-  - bundle exec rake redmine:plugins:migrate
 
 script:
-  - cd $REDMINE_PATH
-  - bundle exec rake redmine:plugins:test NAME=$PLUGIN_NAME RUBYOPT="-W0"
+  - export TESTSPACE=`pwd`/testspace
+  - export NAME_OF_PLUGIN=redmine_elasticsearch
+  - export PATH_TO_PLUGIN=`pwd`
+  - export PATH_TO_REDMINE=$TESTSPACE/redmine
+  - mkdir $TESTSPACE
+  - cp config/database-$DB-travis.yml $PATH_TO_REDMINE/config/database.yml
+  - bash -x ./travis.sh
