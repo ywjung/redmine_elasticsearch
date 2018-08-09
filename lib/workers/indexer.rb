@@ -43,6 +43,8 @@ module Workers
       document.update_index
     rescue ActiveRecord::RecordNotFound
       klass.remove_from_index id
+    rescue Elasticsearch::Transport::Transport::Errors::NotFound
+      # do nothing
     rescue Errno::ECONNREFUSED => e
       raise IndexError, e, e.backtrace
     end
