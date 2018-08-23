@@ -87,12 +87,12 @@ module RedmineElasticsearch
                   default:        {
                     type:      'custom',
                     tokenizer: 'standard',
-                    filter:    %w(ngram_filter lowercase russian_morphology english_morphology main_stopwords)
+                    filter:    %w(lowercase russian_morphology english_morphology main_stopwords ngram_filter)
                   },
                   default_search: {
                     type:      'custom',
                     tokenizer: 'standard',
-                    filter:    %w(ngram_filter lowercase russian_morphology english_morphology main_stopwords)
+                    filter:    %w(lowercase russian_morphology english_morphology main_stopwords ngram_filter)
                   },
                 },
                 filter:   {
