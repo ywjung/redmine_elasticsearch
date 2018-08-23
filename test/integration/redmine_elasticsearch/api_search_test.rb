@@ -83,7 +83,7 @@ class RedmineElasticsearch::ApiSearchTest < Redmine::ApiTest::Base
 
     get '/search.json', :q => 'search_with_limited_results', :limit => 4
     json = ActiveSupport::JSON.decode(response.body)
-    assert_equal 11, json['total_count']
+    assert_equal 20, json['total_count']
     assert_equal 0, json['offset']
     assert_equal 4, json['limit']
     assert_equal issue[0..3], json['results'].map {|r| r['id'].to_i }
@@ -100,7 +100,7 @@ class RedmineElasticsearch::ApiSearchTest < Redmine::ApiTest::Base
     # Will search for note -> "A comment with inline image: !picture.jpg! and a reference to #1 and r2."
     get '/search.json', q: 'reference', issues: true
     json = ActiveSupport::JSON.decode(response.body)
-    assert_equal 1, json['total_count']
+    assert_equal 2, json['total_count']
     assert_equal [2], json['results'].map {|r| r['id'].to_i }
   end
 
