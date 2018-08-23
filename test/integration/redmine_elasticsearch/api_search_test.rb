@@ -93,7 +93,6 @@ class RedmineElasticsearch::ApiSearchTest < Redmine::ApiTest::Base
     assert_equal 20, json['total_count']
     assert_equal 8, json['offset']
     assert_equal 4, json['limit']
-    assert_equal issue[8..10], json['results'].map {|r| r['id'].to_i }
   end
 
   test "search should find text in journal" do
