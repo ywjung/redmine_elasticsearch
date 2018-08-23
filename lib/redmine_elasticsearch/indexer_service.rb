@@ -87,13 +87,13 @@ module RedmineElasticsearch
                   default:        {
                     type:      'custom',
                     tokenizer: 'standard',
-                    filter:    %w(lowercase russian_morphology english_morphology main_stopwords)
+                    filter:    %w(ngram_filter lowercase russian_morphology english_morphology main_stopwords)
                   },
                   default_search: {
                     type:      'custom',
                     tokenizer: 'standard',
-                    filter:    %w(lowercase russian_morphology english_morphology main_stopwords)
-                  }
+                    filter:    %w(ngram_filter lowercase russian_morphology english_morphology main_stopwords)
+                  },
                 },
                 filter:   {
                   main_stopwords: {
@@ -104,6 +104,11 @@ module RedmineElasticsearch
                     type:     'edgeNGram',
                     min_gram: 1,
                     max_gram: 20
+                  },
+                  ngram_filter: {
+                    type: 'ngram',
+                    min_gram: 3,
+                    max_gram: 8
                   }
                 }
               }
