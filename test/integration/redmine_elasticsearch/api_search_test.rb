@@ -3,29 +3,29 @@ require File.expand_path('../../../test_helper', __FILE__)
 # Just as in redmine search test
 class RedmineElasticsearch::ApiSearchTest < Redmine::ApiTest::Base
   fixtures :projects,
-    :users,
-    :email_addresses,
-    :roles,
-    :members,
-    :member_roles,
-    :issues,
-    :journals,
-    :journal_details,
-    :issue_statuses,
-    :versions,
-    :trackers,
-    :projects_trackers,
-    :issue_categories,
-    :enabled_modules,
-    :enumerations,
-    :news,
-    :documents,
-    :changesets,
-    :repositories,
-    :wikis,
-    :wiki_pages,
-    :messages,
-    :boards
+           :users,
+           :email_addresses,
+           :roles,
+           :members,
+           :member_roles,
+           :issues,
+           :journals,
+           :journal_details,
+           :issue_statuses,
+           :versions,
+           :trackers,
+           :projects_trackers,
+           :issue_categories,
+           :enabled_modules,
+           :enumerations,
+           :news,
+           :documents,
+           :changesets,
+           :repositories,
+           :wikis,
+           :wiki_pages,
+           :messages,
+           :boards
 
   def setup
     RedmineElasticsearch::IndexerService.reindex_all
@@ -83,24 +83,25 @@ class RedmineElasticsearch::ApiSearchTest < Redmine::ApiTest::Base
 
     get '/search.json', :q => 'search_with_limited_results', :limit => 4
     json = ActiveSupport::JSON.decode(response.body)
-    assert_equal 20, json['total_count']
+    assert_equal 11, json['total_count']
     assert_equal 0, json['offset']
     assert_equal 4, json['limit']
     assert_equal issue[0..3], json['results'].map {|r| r['id'].to_i }
 
     get '/search.json', :q => 'search_with_limited_results', :offset => 8, :limit => 4
     json = ActiveSupport::JSON.decode(response.body)
-    assert_equal 20, json['total_count']
+    assert_equal 11, json['total_count']
     assert_equal 8, json['offset']
     assert_equal 4, json['limit']
+    assert_equal issue[8..10], json['results'].map {|r| r['id'].to_i }
   end
 
   test "search should find text in journal" do
     # Will search for note -> "A comment with inline image: !picture.jpg! and a reference to #1 and r2."
     get '/search.json', q: 'reference', issues: true
     json = ActiveSupport::JSON.decode(response.body)
-    assert_equal 2, json['total_count']
-    assert_equal [3, 2], json['results'].map {|r| r['id'].to_i }
+    assert_equal 1, json['total_count']
+    assert_equal [2], json['results'].map {|r| r['id'].to_i }
   end
 
 end
