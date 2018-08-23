@@ -90,7 +90,7 @@ class RedmineElasticsearch::ApiSearchTest < Redmine::ApiTest::Base
 
     get '/search.json', :q => 'search_with_limited_results', :offset => 8, :limit => 4
     json = ActiveSupport::JSON.decode(response.body)
-    assert_equal 11, json['total_count']
+    assert_equal 20, json['total_count']
     assert_equal 8, json['offset']
     assert_equal 4, json['limit']
     assert_equal issue[8..10], json['results'].map {|r| r['id'].to_i }
@@ -101,7 +101,7 @@ class RedmineElasticsearch::ApiSearchTest < Redmine::ApiTest::Base
     get '/search.json', q: 'reference', issues: true
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal 2, json['total_count']
-    assert_equal [2], json['results'].map {|r| r['id'].to_i }
+    assert_equal [3, 2], json['results'].map {|r| r['id'].to_i }
   end
 
 end
