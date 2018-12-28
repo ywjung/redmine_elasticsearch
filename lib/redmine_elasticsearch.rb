@@ -3,7 +3,7 @@ require 'elasticsearch/model'
 
 module RedmineElasticsearch
   INDEX_NAME            = "#{Rails.application.class.parent_name.downcase}_#{Rails.env}"
-  BATCH_SIZE_FOR_IMPORT = 300
+  BATCH_SIZE_FOR_IMPORT = 20
 
   def type2class_name(type)
     type.to_s.underscore.classify
