@@ -89,21 +89,14 @@ module ApplicationSearch
 
     def remove_from_index(id)
       __elasticsearch__.client.delete index: index_name, type: document_type, id: id, routing: id
+    rescue Elasticsearch::Transport::Transport::Errors::NotFound
+      # do nothing
     end
   end
 
   def update_index
     relation = self.class.searching_scope.where(id: id)
-
-    if relation.size.zero?
-      begin
-        self.class.remove_from_index(id)
-        return
-      rescue Elasticsearch::Transport::Transport::Errors::NotFound
-        return
-      end
-    end
-
+    self.class.remove_from_index(id) if relation.size.zero?
     relation.import
   end
 end
