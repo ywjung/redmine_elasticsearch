@@ -1,8 +1,8 @@
 # Redmine Elasticsearch Plugin
 
 
-[![Build Status](https://travis-ci.org/centosadmin/redmine_elasticsearch.png?branch=master)](https://travis-ci.org/centosadmin/redmine_elasticsearch)
-[![Code Climate](https://codeclimate.com/github/centosadmin/redmine_elasticsearch.png)](https://codeclimate.com/github/centosadmin/redmine_elasticsearch)
+[![Build Status](https://travis-ci.org/southbridgeio/redmine_elasticsearch.png?branch=master)](https://travis-ci.org/southbridgeio/redmine_elasticsearch)
+[![Code Climate](https://codeclimate.com/github/southbridgeio/redmine_elasticsearch.png)](https://codeclimate.com/github/southbridgeio/redmine_elasticsearch)
 
 This plugin integrates the Elasticsearch<sup>®</sup> full-text search engine into Redmine.
 
@@ -19,7 +19,7 @@ Work with other versions of Elasticsearch is possible but not guarantied.
 
 ## Installation
 
-1. This plugin requires [Redmine Sidekiq Plugin](https://github.com/centosadmin/redmine_sidekiq).
+1. This plugin requires [Redmine Sidekiq Plugin](https://github.com/southbridgeio/redmine_sidekiq).
 
 2. Download and install [Elasticsearch](http://www.elasticsearch.org/overview/elkdownloads/).
 
@@ -41,7 +41,7 @@ Work with other versions of Elasticsearch is possible but not guarantied.
             
       Copy the plugin from GitHub using the following commands:
       
-            git clone https://github.com/centosadmin/redmine_elasticsearch.git plugins/redmine_elasticsearch
+            git clone https://github.com/southbridgeio/redmine_elasticsearch.git plugins/redmine_elasticsearch
 
 5. Install the required gems:
 
