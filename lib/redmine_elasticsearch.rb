@@ -52,6 +52,10 @@ module RedmineElasticsearch
     client.indices.refresh
   end
 
+  def bypass_index?
+    Redmine::Configuration['elastic_search']&.fetch('bypass_index', false)
+  end
+
   extend self
 end
 
