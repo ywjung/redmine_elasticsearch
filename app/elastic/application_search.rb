@@ -4,8 +4,8 @@ module ApplicationSearch
   included do
     include Elasticsearch::Model
 
+    document_type name.parameterize
     index_name RedmineElasticsearch::INDEX_NAME
-
     after_commit :async_update_index
   end
 
@@ -19,26 +19,9 @@ module ApplicationSearch
 
   module ClassMethods
 
-    def index_mapping
-      {
-        document_type => {
-          _parent: { type: 'parent_project' }
-        }
-      }
-    end
-
     def additional_index_mappings
       return {} unless Rails.configuration.respond_to?(:additional_index_properties)
       Rails.configuration.additional_index_properties[self.name.tableize.to_sym] || {}
-    end
-
-    # Update mapping for document type
-    def update_mapping
-      __elasticsearch__.client.indices.put_mapping(
-        index: index_name,
-        type:  document_type,
-        body:  index_mapping
-      )
     end
 
     def allowed_to_search_query(user, options = {})
@@ -68,14 +51,14 @@ module ApplicationSearch
       # Errors counter
       errors = 0
 
-      searching_scope.find_in_batches(batch_size: batch_size) do |items|
+      searching_scope.find_in_batches(batch_size: batch_size || RedmineElasticsearch::BATCH_SIZE_FOR_IMPORT) do |items|
         response = __elasticsearch__.client.bulk(
           index: index_name,
-          type:  type,
           body:  items.map do |item|
             data   = item.to_indexed_json
             parent = data.delete :_parent
-            { index: { _id: item.id, _parent: parent, data: data } }
+            data.merge(parent_project_relation: {name: document_type, parent: parent})
+            { index: { _id: item.id,data: data } }
           end
         )
         imported += items.length

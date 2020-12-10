@@ -69,7 +69,7 @@ namespace :redmine_elasticsearch do
     puts "#{estimated_records} will be imported."
     bar = ANSI::ProgressBar.new("Project tree", estimated_records)
     bar.flush
-    errors = ParentProject.import batch_size: batch_size do |imported_records|
+    errors = ParentProject.import batch_size: batch_size || RedmineElasticsearch::BATCH_SIZE_FOR_IMPORT do |imported_records|
       bar.inc imported_records
     end
     bar.halt
@@ -83,7 +83,7 @@ namespace :redmine_elasticsearch do
     puts "#{estimated_records} will be imported."
     bar = ANSI::ProgressBar.new("#{search_type}", estimated_records)
     bar.flush
-    errors = RedmineElasticsearch::IndexerService.reindex(search_type, batch_size: batch_size) do |imported_records|
+    errors = RedmineElasticsearch::IndexerService.reindex(search_type, batch_size: batch_size || RedmineElasticsearch::BATCH_SIZE_FOR_IMPORT) do |imported_records|
       bar.set imported_records
     end
     bar.halt

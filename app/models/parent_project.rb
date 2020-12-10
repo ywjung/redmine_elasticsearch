@@ -4,6 +4,27 @@ class ParentProject < Project
 
   class << self
 
+    def index_mapping
+      {
+        properties: {
+          "parent_project_relation" => {
+            type: 'join',
+            relations: {
+              parent_project: Redmine::Search.available_search_types
+            }
+          }
+        }
+      }
+    end
+
+    def update_mapping
+      # TODO: https://www.elastic.co/guide/en/elasticsearch/reference/6.8/mapping-parent-field.html
+      __elasticsearch__.client.indices.put_mapping(
+        index: index_name,
+        body:  index_mapping
+      )
+    end
+
     # Import all projects to 'parent_project' document type.
     # 'parent_project' is a project tree for all other items.
     def import(options={}, &block)
@@ -16,12 +37,12 @@ class ParentProject < Project
       # Errors counter
       errors     = 0
 
-      find_in_batches(batch_size: batch_size) do |items|
+      find_in_batches(batch_size: batch_size || RedmineElasticsearch::BATCH_SIZE_FOR_IMPORT) do |items|
         response = __elasticsearch__.client.bulk(
           index: index_name,
-          type:  document_type,
+          # type:  document_type,
           body:  items.map do |item|
-            data = item.to_indexed_json
+            data = item.to_indexed_json.merge(parent_project_relation: {name: 'parent_project'})
             { index: { _id: item.id, data: data } }
           end
         )
@@ -108,7 +129,5 @@ class ParentProject < Project
         }
       }
     end
-
   end
-
 end

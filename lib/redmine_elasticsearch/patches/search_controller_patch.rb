@@ -229,7 +229,7 @@ module RedmineElasticsearch
                 query:            options[:q],
                 default_operator: search_operator,
                 fields:           search_fields,
-                use_dis_max:      true
+                tie_breaker:      1
               }
             }
           when :match
@@ -238,7 +238,7 @@ module RedmineElasticsearch
                 query:       options[:q],
                 operator:    search_operator,
                 fields:      search_fields,
-                use_dis_max: true
+                tie_breaker: 1
               }
             }
           else
