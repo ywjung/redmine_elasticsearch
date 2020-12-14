@@ -1,10 +1,22 @@
 class BaseSerializer < ActiveModel::Serializer
   self.root = false
 
-  attributes :id, :_parent, :datetime, :title, :description, :author, :url, :type
+  attributes :_parent, :datetime, :title, :description, :author, :url, :type, :redmine_id, :id
 
   def _parent
     project_id if respond_to? :project_id
+  end
+
+  def id
+    if is_a?(Project)
+      object.id
+    else
+      "#{type}_#{object.id}"
+    end
+  end
+
+  def redmine_id
+    id
   end
 
   %w(datetime title description).each do |attr|
@@ -12,7 +24,7 @@ class BaseSerializer < ActiveModel::Serializer
   end
 
   def type
-    object.class.document_type
+    object.class.type
   end
 
   def author

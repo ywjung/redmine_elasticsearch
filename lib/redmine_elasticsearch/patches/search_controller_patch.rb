@@ -130,7 +130,7 @@ module RedmineElasticsearch
 
         common_must = []
 
-        search_fields   = get_search_fields(
+        search_fields  = get_search_fields(
           titles_only: options[:titles_only],
           search_attachments: options[:search_attachments]
         )
@@ -138,7 +138,7 @@ module RedmineElasticsearch
         common_must << get_main_query(options, search_fields, search_operator)
 
         document_types = options[:scope].map(&:singularize)
-        common_must << { terms: { _type: document_types } }
+        common_must << { terms: { type: document_types } }
 
         if project_ids
           common_must << {

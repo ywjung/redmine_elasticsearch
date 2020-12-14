@@ -79,7 +79,7 @@ class ParentProject < Project
         }
       end
 
-      must_queries << { term: { _type: options[:type] } } if options[:type].present?
+      must_queries << { term: { type: options[:type] } } if options[:type].present?
 
       unless user.admin?
         statement_by_role    = {}

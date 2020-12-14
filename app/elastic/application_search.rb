@@ -4,7 +4,7 @@ module ApplicationSearch
   included do
     include Elasticsearch::Model
 
-    document_type name.parameterize
+    # document_type name.parameterize
     index_name RedmineElasticsearch::INDEX_NAME
     after_commit :async_update_index
   end
@@ -18,6 +18,10 @@ module ApplicationSearch
   end
 
   module ClassMethods
+
+    def type
+      document_type || name.parameterize
+    end
 
     def additional_index_mappings
       return {} unless Rails.configuration.respond_to?(:additional_index_properties)
@@ -43,7 +47,7 @@ module ApplicationSearch
       batch_size = options.fetch(:batch_size, RedmineElasticsearch::BATCH_SIZE_FOR_IMPORT)
 
       # Document type
-      type = options.fetch(:type, document_type)
+      d_type = options.fetch(:type, type)
 
       # Imported records counter
       imported = 0
@@ -57,8 +61,9 @@ module ApplicationSearch
           body:  items.map do |item|
             data   = item.to_indexed_json
             parent = data.delete :_parent
-            data.merge(parent_project_relation: {name: document_type, parent: parent})
-            { index: { _id: item.id,data: data } }
+            id = data.delete :id
+            data.merge(parent_project_relation: {name: type, parent: parent}, type:  d_type,)
+            { index: { _id: id, data: data } }
           end
         )
         imported += items.length
