@@ -56,8 +56,6 @@ class AttachmentSerializer < ActiveModel::Serializer
   private
 
   def supported?
-    #TODO: enable back
-    return false
     object.filesize > 0 &&
       object.filesize < MAX_SIZE &&
       (extension_supported? || content_type_supported?) &&
