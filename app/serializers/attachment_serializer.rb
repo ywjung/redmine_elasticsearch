@@ -50,7 +50,7 @@ class AttachmentSerializer < ActiveModel::Serializer
 
   def file
     content = supported? ? File.read(object.diskfile) : UNSUPPORTED
-    Base64.encode64(content)
+    Base64.strict_encode64(content)
   end
 
   private
