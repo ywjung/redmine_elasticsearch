@@ -6,10 +6,12 @@ class AttachmentSerializer < ActiveModel::Serializer
   MAX_SIZE  = 5.megabytes
 
   SUPPORTED_EXTENSIONS = %w{
-    .doc .docx .htm .html .json .ods .odt .pdf .ppt .pptx .rb .rtf .sh .sql .txt .xls .xlsx .xml .yaml .yml
+    .doc .docx .htm .html .json .ods .odt .pdf .ppt .pptx .rb .rtf .sh .sql .txt .xls .xlsx .xml .yaml .yml .hwp
   }
 
   SUPPORTED_MIME_PATTERNS = %w{
+    application\/x-hwp-v5
+    application\/haansofthwp  
     application\/json
     application\/msword
     application\/pdf
