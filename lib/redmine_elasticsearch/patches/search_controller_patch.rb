@@ -142,9 +142,8 @@ module RedmineElasticsearch
 
         if project_ids
           common_must << {
-            has_parent: {
-              parent_type: 'parent_project',
-              query:       { ids: { values: project_ids } }
+            terms: {
+              project_id: project_ids
             }
           }
         end
@@ -170,6 +169,9 @@ module RedmineElasticsearch
         end
 
         payload = {
+          _source: {
+            excludes: [ 'attachments.file', 'attachments.attachment.content' ]
+          },          
           query: {
             bool: {
               must:                 common_must,
@@ -209,7 +211,7 @@ module RedmineElasticsearch
 
         search_attachment_fields = titles_only ?
           %w(attachments.title) :
-          %w(attachments.title attachments.file attachments.filename attachments.description)
+          %w(attachments.title attachments.attachment.content attachments.filename attachments.description)
 
         case search_attachments
           when '1'
