@@ -79,33 +79,48 @@ module RedmineElasticsearch
         RedmineElasticsearch.client.indices.create(
           index: RedmineElasticsearch::INDEX_NAME,
           body:  {
-            settings: {
+                settings: {
               index:    {
                 number_of_shards:   1,
-                number_of_replicas: 0
+                number_of_replicas: 0,
+                default_pipeline: 'attachments'
               },
               analysis: {
+
+                filter: {
+                  stopword: {
+                    type: 'stop',
+                    stopwords_path: 'analysis/stopword_nori.txt'
+                  },
+                  synonym: {
+                    type: 'synonym',
+                    synonyms_path: 'analysis/synonym_nori.txt'
+                  },
+                  nori_posfilter: {
+                    type: 'nori_part_of_speech',
+                    stoptags: [ 'NR' ]
+                  }
+                },
+
                 analyzer: {
                   default:        {
+                    filter: [
+                      'stopword',
+                      'synonym',
+                      'nori_posfilter',
+                      'lowercase'
+                    ],
+                    char_filter: [
+                      'html_strip'
+                    ],
                     type:      'custom',
-                    tokenizer: 'standard',
-                    filter:    %w(lowercase main_ngrams main_stopwords)
-                  },
-                  default_search: {
-                    type:      'custom',
-                    tokenizer: 'standard',
-                    filter:    %w(lowercase main_stopwords)
-                  },
+                    tokenizer: 'nori_mixed'
+                  }
                 },
-                filter:   {
-                  main_stopwords: {
-                    type:      'stop',
-                    stopwords: %w(a an and are as at be but by for if in into is it no not of on or such that the their then there these they this to was will with)
-                  },
-                  main_ngrams:    {
-                    type:     'edge_ngram',
-                    min_gram: 1,
-                    max_gram: 20
+                tokenizer: {
+                  nori_mixed: {
+                    type: 'nori_tokenizer',
+                    decompound_mode: 'mixed'
                   }
                 }
               }
