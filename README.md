@@ -269,3 +269,49 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+
+## 추가사항
+elasticsearch의 injest attachment를 사용하기 위해 pipelie 생성이 필요함
+'''
+PUT _ingest/pipeline/attachments
+{
+  "description" : "Extract attachment information from arrays",
+  "processors" : [
+    {
+      "foreach": {
+        "field": "attachments",
+        "processor": {
+          "attachment": {
+            "target_field": "_ingest._value.attachment",
+            "field": "_ingest._value.file"
+          }
+        }
+      }
+    },
+    {
+      "foreach": {
+        "field": "attachments",
+        "processor": {
+          "remove": {
+            "field": "_ingest._value.file"
+          }
+        }
+      }
+    }    
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "description": "Record error information",
+        "field": "error_information",
+        "value": "Failed-{{ _index }}, Processor {{ _ingest.on_failure_processor_type }} with tag {{ _ingest.on_failure_processor_tag }} in pipeline {{ _ingest.on_failure_pipeline }} failed with message {{ _ingest.on_failure_message }}"
+      }
+    }
+  ]  
+}
+'''
+
+
+
+
