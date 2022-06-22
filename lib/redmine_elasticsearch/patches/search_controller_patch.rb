@@ -177,7 +177,7 @@ module RedmineElasticsearch
               must:                 common_must,
               must_not:             common_must_not,
               should:               common_should,
-              minimum_should_match: 1
+              minimum_should_match: 0
             }
           },
           sort:  [
