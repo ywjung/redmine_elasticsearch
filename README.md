@@ -273,7 +273,7 @@ limitations under the License.
 
 ## 추가사항
 elasticsearch의 injest attachment를 사용하기 위해 pipelie 생성이 필요함
-'''
+```
 PUT _ingest/pipeline/attachments
 {
   "description" : "Extract attachment information from arrays",
@@ -310,7 +310,7 @@ PUT _ingest/pipeline/attachments
     }
   ]  
 }
-'''
+```
 
 
 
